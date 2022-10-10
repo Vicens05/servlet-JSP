@@ -27,7 +27,7 @@ public class UsersServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UsersServlet</title>");            
+            out.println("<title>Servlet UserModificarServlet</title>");            
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet UsersServlet at " + request.getContextPath() + "</h1>");
@@ -49,7 +49,8 @@ public class UsersServlet extends HttpServlet {
         
         UserDao userDao = new UserDao();
         int rowsAffected = 0;
-        
+        String mensaje="";
+        //Request, todos los datos que almacenamos 
         String name = request.getParameter("name");
         String lastname = request.getParameter("lastname");
         String username = request.getParameter("username");
@@ -58,7 +59,7 @@ public class UsersServlet extends HttpServlet {
         String nroDoc = request.getParameter("nroDoc");
         String enable = request.getParameter("enable");
         String email = request.getParameter("email");
-        
+        //Los guardo en mi modelo User
         User user = new User();
         
         user.setName(name);
@@ -70,18 +71,20 @@ public class UsersServlet extends HttpServlet {
         user.setEnable(Integer.parseInt(enable));
         user.setEmail(email);
         
-        try{
+        try{//Si todo está ok, registra todo
             rowsAffected = userDao.registerUser(user);
             
+            mensaje = "Usuario registrado satisfactoriamente";
         }catch(Exception e){
+            mensaje = e.toString();
             e.printStackTrace();
         }
-        
+        //Redirecciono, si todo está ok, mandamos a success 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/success.jsp");
         
-        if(rowsAffected > 0){
-            request.setAttribute("message", "Usuario registrado satisfactoriamente");
-        }
+       
+            request.setAttribute("message", mensaje);
+        
         dispatcher.forward(request,response);
     }
 

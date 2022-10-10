@@ -13,6 +13,6 @@
     </head>
     <body>
         <h1>Result of user's registration: </h1>
-        <h3><%=request.getAttribute("menssage")%></h3>
+        <h3><%=request.getAttribute("message")%></h3>
     </body>
 </html>
